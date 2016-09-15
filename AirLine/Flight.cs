@@ -19,7 +19,8 @@ namespace AirLine
         Delayed,
         InFlight
     }
-    public class Flight : IFlightSearch
+
+    public class Flight 
     {
         
         public DateTime Arrival { get; private set; }
@@ -30,13 +31,13 @@ namespace AirLine
         public int Terminal { get; private set; }
         public Status Status { get; private set; }
         public FlightTicket[] FlightTicket { get; private set; }
-        public Passenger[] Passenger { get; private set; }
+        public Passenger[] Passengers { get; private set; }
 
         public Flight() { }
 
         public Flight(DateTime arrival, DateTime departure, int flightNumber,
                 string cityArrival, string cityDeparture, int terminal,
-                Status status, FlightTicket[] flightTicket,params Passenger[] passenger)
+                Status status, FlightTicket[] flightTicket, params Passenger[] passengers)
         {
             Arrival = arrival;
             Departure = departure;
@@ -46,179 +47,36 @@ namespace AirLine
             Terminal = terminal;
             Status = status;
             FlightTicket = flightTicket;
-            Passenger = passenger;
-        }
-        Adress adress = new Adress();
-
-        public void Delete(AirLineInfo[] mass)
-        {
-            Console.Clear();
-            adress.PrintAdress();
-            for (int i = 0; i < mass.Length; i++)
-            {
-                if (mass[i] != null)
-                    Console.WriteLine(mass[i].Flight.ToString()); 
-            }
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("Enter the flight number to Delete: ");
-            Console.ResetColor();
-            int numberDelete = int.Parse(Console.ReadLine());
-            int positionDelete = -1;
-            Console.Clear();
-            for (int i = 0; i < mass.Length; i++)
-            {
-                if (mass[i] != null)
-                {
-                    if (numberDelete == mass[i].Flight.FlightNumber)
-                    {
-                        positionDelete = i;
-                    }
-                }
-            }
-            for (int i = positionDelete; i < mass.Length - 1; i++)
-            {
-                mass[i] = mass[i + 1];
-            }
-        }
-        public void Print(AirLineInfo[] mass)
-        {
-            adress.PrintAdress();
-            for (int i = 0; i < mass.Length; i++)
-            {
-                if (mass[i] != null)
-                    Console.WriteLine(mass[i].Flight.ToString());
-            }
-            Console.ReadLine();
+            Passengers = passengers;
         }
 
-        public void PrintWithPrices(AirLineInfo[] mass)
+        public void PrintPassengers()
         {
-            adress.PrintAdress();
-            for (int i = 0; i < mass.Length; i++)
+            for (int i = 0; i < Passengers.Length; i++)
             {
-                if (mass[i] != null)
-                { 
-                    Console.WriteLine(mass[i].Flight.ToString());      
-                    for (int j = 0; j < mass[i].Flight.FlightTicket.Length; j++)
-                    {
-                        Console.WriteLine($"Price for {mass[i].Flight.FlightTicket[j].FlightClass} class: {mass[i].Flight.FlightTicket[j].Price}$");
-                    }
-                    Console.WriteLine(new string('_', 30));
-                }
-            }
-            Console.ReadLine();
-        }
-        public void SearchCityArrival(AirLineInfo[] mass)
-        {
-            Console.Clear();
-            Console.WriteLine("Enter city arrival:");
-            string cityArrival = Console.ReadLine();
-            bool count = true;
-            for (int i = 0; i < mass.Length; i++)
-            {
-                if (mass[i] != null)
+                if (Passengers[i] != null)
                 {
-                    if (mass[i].Flight.CityArrival == cityArrival)
-                    {
-                        Console.WriteLine(mass[i].Flight.ToString());
-                        count = false;
-                    }
+                    Console.WriteLine(Passengers[i].ToString());
                 }
             }
-            if (count)
-            Helper.NothingFound();
-            Console.ReadLine();
-
         }
 
-        public void SearchCityDeparture(AirLineInfo[] mass)
+        public static Flight InputFlight()
         {
-            Console.Clear();
-            Console.WriteLine("Enter city departure: ");
-            string cityDeparture = Console.ReadLine();
-            bool count = true;
-            for (int i = 0; i < mass.Length; i++)
-            {
-                if (mass[i] != null)
-                {
-                    if (mass[i].Flight.CityDeparture == cityDeparture)
-                    {
-                        Console.WriteLine(mass[i].Flight.ToString());
-                        count = false;
-                    }
-                }
-            }
-              if(count)
-              Helper.NothingFound();
-              Console.ReadLine();
-        }
-        public void SearchNumber(AirLineInfo[] mass)
-        {
-            Console.Clear();
-            Console.WriteLine("Enter flight number: ");
-            int flightNumber = int.Parse(Console.ReadLine());
-            bool count = true;
-            for (int i = 0; i < mass.Length; i++)
-            {
-                if (mass[i] != null)
-                {
-                    if (mass[i].Flight.FlightNumber == flightNumber)
-                    {
-                        Console.WriteLine(mass[i].Flight.ToString());
-                        count = false;
-                    }
-                }
-            }
-            if (count)
-            Helper.NothingFound();
-            Console.ReadLine();
-        }
-        public void SearchPrice(AirLineInfo[] mass)
-        {
-            Console.Clear();
-            Console.WriteLine("Enter min price of fligth for economy class: ");
-            float minPrice = float.Parse(Console.ReadLine());
-            Console.WriteLine("Enter max price of fligthfor for economy class: ");
-            float maxPrice = float.Parse(Console.ReadLine());
-            bool count = true;
-            for (int i = 0; i < mass.Length; i++)
-                {
-                if (mass[i] != null)
-                {
-                    for (int j = 0; j < mass[i].Flight.FlightTicket.Length; j++)
-                    {
-                        if (mass[i].Flight != null)
-                        {
-                            if (mass[i].Flight.FlightTicket[j].Price >= minPrice
-                            && mass[i].Flight.FlightTicket[j].Price <= maxPrice)
-                            {
-                                if (mass[i].Flight.FlightTicket[j].FlightClass == FlightClass.Ecocnomy)
-                                    Console.WriteLine(mass[i].Flight.ToString());
-                                count = false;
-                            }
-                        }
-                    }
-                }
-         }
-            if (count)
-            Helper.NothingFound();
-            Console.ReadLine();
-        }
-        public void Add(AirLineInfo[] mass)
-        {
+            Flight flight = new Flight();
             Console.Clear();
             Console.WriteLine("Enter value of date and time arrival(dd/mm/yyyy hh:mm:ss)");
-            Arrival = DateTime.Parse(Console.ReadLine());
+            flight.Arrival = DateTime.Parse(Console.ReadLine());
             Console.WriteLine("Enter value of date and time departure(dd/mm/yyyy hh:mm:ss)");
-            Departure = DateTime.Parse(Console.ReadLine());
+            flight.Departure = DateTime.Parse(Console.ReadLine());
             Console.WriteLine("Enter value of Flight number:");
-            FlightNumber = int.Parse(Console.ReadLine());
+            flight.FlightNumber = int.Parse(Console.ReadLine());
             Console.WriteLine("Enter city of arrival:");
-            CityArrival = Console.ReadLine();
+            flight.CityArrival = Console.ReadLine();
             Console.WriteLine("Enter city of departure:");
-            CityDeparture = Console.ReadLine();
+            flight.CityDeparture = Console.ReadLine();
             Console.WriteLine("Enter value of terminal:");
-            Terminal = int.Parse(Console.ReadLine());
+            flight.Terminal = int.Parse(Console.ReadLine());
             Console.WriteLine(@"Select a flight status:
 1.CheckIn,
 2.GateClosed,
@@ -233,36 +91,35 @@ namespace AirLine
             int status = int.Parse(Console.ReadLine());
             switch (status)
             {
-
                 case 1:
-                    Status = Status.CheckIn;
+                    flight.Status = Status.CheckIn;
                     break;
                 case 2:
-                    Status = Status.GateClosed;
+                    flight.Status = Status.GateClosed;
                     break;
                 case 3:
-                    Status = Status.GateOpened;
+                    flight.Status = Status.GateOpened;
                     break;
                 case 4:
-                    Status = Status.Arrived;
+                    flight.Status = Status.Arrived;
                     break;
                 case 5:
-                    Status = Status.DepartedAt;
+                    flight.Status = Status.DepartedAt;
                     break;
                 case 6:
-                    Status = Status.Unknown;
+                    flight.Status = Status.Unknown;
                     break;
                 case 7:
-                    Status = Status.Canseled;
+                    flight.Status = Status.Canseled;
                     break;
                 case 8:
-                    Status = Status.ExpectedAt;
+                    flight.Status = Status.ExpectedAt;
                     break;
                 case 9:
-                    Status = Status.Delayed;
+                    flight.Status = Status.Delayed;
                     break;
                 case 10:
-                    Status = Status.InFlight;
+                    flight.Status = Status.InFlight;
                     break;
                 default:
                     Console.WriteLine("You entered incorrect data !");
@@ -273,56 +130,29 @@ namespace AirLine
             float business = float.Parse(Console.ReadLine());
             Console.WriteLine($"Enter value of price for: {FlightClass.Ecocnomy}");
             float economy = float.Parse(Console.ReadLine());
-            int count = 0;
-            for (int i = 0; i < mass.Length; i++)
-            {
-             if (mass[i] != null)
-                 count++;
-            }
-            Passenger[] pass = new Passenger[20];           
-            int position = count + 1;
-            mass[position] = new AirLineInfo(new Adress(), new Flight(Arrival, Departure, FlightNumber, CityArrival, CityDeparture, Terminal, Status,
-                             new FlightTicket[] { new FlightTicket (FlightClass.Business, business),
-                                              new FlightTicket (FlightClass.Ecocnomy, economy) }, pass));
+            Passenger[] pass = new Passenger[20];
+            flight = new Flight(flight.Arrival, flight.Departure, flight.FlightNumber, flight.CityArrival,
+                                flight.CityDeparture, flight.Terminal, flight.Status, 
+                     new FlightTicket[] { new FlightTicket (FlightClass.Business, business),
+                                          new FlightTicket (FlightClass.Ecocnomy, economy)}, pass);
+            return flight;
         }
-        public void Edit(AirLineInfo[] mass)
+
+        public void IputEdit(Flight[] flight, int position)
         {
             {
-                Console.Clear();
-                adress.PrintAdress();
-                for (int i = 0; i < mass.Length; i++)
-                {
-                    if (mass[i] != null)
-                        Console.WriteLine(mass[i].Flight.ToString()); 
-                }
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("Enter the flight number to edit: ");
-                Console.ResetColor();
-                int number = int.Parse(Console.ReadLine());
-                int position = -1;
-                Console.Clear();
-                for (int i = 0; i < mass.Length; i++)
-                {
-                    if (mass[i] != null)
-                    {
-                        if (number == mass[i].Flight.FlightNumber)
-                        {
-                            position = i;
-                        }
-                    }
-                }
                 Console.WriteLine("Enter value of date and time arrival(dd/mm/yyyy hh:mm:ss)");
-                mass[position].Flight.Arrival = DateTime.Parse(Console.ReadLine());
+                flight[position].Arrival = DateTime.Parse(Console.ReadLine());
                 Console.WriteLine("Enter value of date and time departure(dd/mm/yyyy hh:mm:ss)");
-                mass[position].Flight.Departure = DateTime.Parse(Console.ReadLine());
+                flight[position].Departure = DateTime.Parse(Console.ReadLine());
                 Console.WriteLine("Enter value of Flight number:");
-                mass[position].Flight.FlightNumber = int.Parse(Console.ReadLine());
+                flight[position].FlightNumber = int.Parse(Console.ReadLine());
                 Console.WriteLine("Enter city of arrival:");
-                mass[position].Flight.CityArrival = Console.ReadLine();
+                flight[position].CityArrival = Console.ReadLine();
                 Console.WriteLine("Enter city of departure:");
-                mass[position].Flight.CityDeparture = Console.ReadLine();
+                flight[position].CityDeparture = Console.ReadLine();
                 Console.WriteLine("Enter value of terminal:");
-                mass[position].Flight.Terminal = int.Parse(Console.ReadLine());
+                flight[position].Terminal = int.Parse(Console.ReadLine());
                 Console.WriteLine(@"Select a flight status:
 1.CheckIn,
 2.GateClosed,
@@ -337,36 +167,35 @@ namespace AirLine
                 int status = int.Parse(Console.ReadLine());
                 switch (status)
                 {
-
                     case 1:
-                        mass[position].Flight.Status = Status.CheckIn;
+                        flight[position].Status = Status.CheckIn;
                         break;
                     case 2:
-                        mass[position].Flight.Status = Status.GateClosed;
+                        flight[position].Status = Status.GateClosed;
                         break;
                     case 3:
-                        mass[position].Flight.Status = Status.GateOpened;
+                        flight[position].Status = Status.GateOpened;
                         break;
                     case 4:
-                        mass[position].Flight.Status = Status.Arrived;
+                        flight[position].Status = Status.Arrived;
                         break;
                     case 5:
-                        mass[position].Flight.Status = Status.DepartedAt;
+                        flight[position].Status = Status.DepartedAt;
                         break;
                     case 6:
-                        mass[position].Flight.Status = Status.Unknown;
+                        flight[position].Status = Status.Unknown;
                         break;
                     case 7:
-                        mass[position].Flight.Status = Status.Canseled;
+                        flight[position].Status = Status.Canseled;
                         break;
                     case 8:
-                        mass[position].Flight.Status = Status.ExpectedAt;
+                        flight[position].Status = Status.ExpectedAt;
                         break;
                     case 9:
-                        mass[position].Flight.Status = Status.Delayed;
+                        flight[position].Status = Status.Delayed;
                         break;
                     case 10:
-                        mass[position].Flight.Status = Status.InFlight;
+                        flight[position].Status = Status.InFlight;
                         break;
                     default:
                         Console.WriteLine("You entered incorrect data !");
@@ -380,23 +209,35 @@ namespace AirLine
                 float economy = float.Parse(Console.ReadLine());
                 FlightTicket[] ticket = new FlightTicket[]
                   {
-                    new FlightTicket (FlightClass.Business, business ),
-                    new FlightTicket (FlightClass.Ecocnomy, economy )
+                            new FlightTicket (FlightClass.Business, business ),
+                            new FlightTicket (FlightClass.Ecocnomy, economy )
                   };
-                for (int i = 0; i < mass.Length; i++)
+                for (int i = 0; i < flight.Length; i++)
                 {
                     if (i == position)
-                        mass[i].Flight = mass[position].Flight;
-                    if (mass[position].Flight.FlightTicket != ticket)
+                        flight[i] = flight[position];
+                    if (flight[position].FlightTicket != ticket)
                     {
-                        for (int j = 0; j < mass[position].Flight.FlightTicket.Length; j++)
+                        for (int j = 0; j < flight[position].FlightTicket.Length; j++)
                         {
-                            mass[position].Flight.FlightTicket = ticket;
+                            flight[position].FlightTicket = ticket;
                         }
                     }
                 }
             }
         }
+
+        public void SearchPassenger(Flight [] flights, int positionAdd)
+        {
+            int count = 0;
+            for (int i = 0; i < flights[positionAdd].Passengers.Length; i++)
+            {
+                if (flights[positionAdd].Passengers[i] != null)
+                    count++;
+            }
+            flights[positionAdd].Passengers[count] = Passenger.InputAdd();
+        }
+
         public override string ToString()
         {
             string mySring = new string('*', 70) + "\n" +
@@ -404,6 +245,6 @@ namespace AirLine
                 "\nCityArrival: " + CityArrival + "\nCityDeparture: " + CityDeparture +
                 "\nTerminal: " + Terminal + "\nStatus: " + Status + "\n" + new string('*', 70);
             return mySring;
-        }      
+        }
     }
 }

@@ -9,11 +9,10 @@
     {
         public float Price { get; private set; }
         public FlightClass FlightClass { get; private set; }
-        public FlightTicket(FlightClass flightClass, float price )
+        public FlightTicket(FlightClass flightClass, float price)
         {
             FlightClass = flightClass;
             Price = price;
         }
-
     }
 }

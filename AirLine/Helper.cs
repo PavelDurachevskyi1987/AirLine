@@ -11,7 +11,9 @@ namespace AirLine
         public static void NothingFound()
         {
             Console.Clear();
-            Console.WriteLine("Nothing found !");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Nothing found !!!");
+            Console.ResetColor();
         }
     }
 }

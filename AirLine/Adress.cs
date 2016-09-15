@@ -4,13 +4,13 @@ namespace AirLine
 {
     public class Adress
     {
-        public string Country { get; set; }
-        public string City { get; set; }
-        public string Street { get; set; }
-        public int NumberBuilding { get; set; }
+        public string Country { get; private set; }
+        public string City { get; private set; }
+        public string Street { get; private set; }
+        public int NumberBuilding { get; private set; }
 
-        public Adress(string country = "Ukraine", string city = "Kharkov", 
-            string street = "Romashkina", int numberBuilding = 1)
+        public Adress(string country, string city, 
+            string street, int numberBuilding)
         {
             Country = country;
             City = city;
