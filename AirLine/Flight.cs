@@ -20,9 +20,9 @@ namespace AirLine
         InFlight
     }
 
-    public class Flight 
+    public class Flight
     {
-        
+
         public DateTime Arrival { get; private set; }
         public DateTime Departure { get; private set; }
         public int FlightNumber { get; private set; }
@@ -132,7 +132,7 @@ namespace AirLine
             float economy = float.Parse(Console.ReadLine());
             Passenger[] pass = new Passenger[20];
             flight = new Flight(flight.Arrival, flight.Departure, flight.FlightNumber, flight.CityArrival,
-                                flight.CityDeparture, flight.Terminal, flight.Status, 
+                                flight.CityDeparture, flight.Terminal, flight.Status,
                      new FlightTicket[] { new FlightTicket (FlightClass.Business, business),
                                           new FlightTicket (FlightClass.Ecocnomy, economy)}, pass);
             return flight;
@@ -227,7 +227,7 @@ namespace AirLine
             }
         }
 
-        public void SearchPassenger(Flight [] flights, int positionAdd)
+        public void SearchPassenger(Flight[] flights, int positionAdd)
         {
             int count = 0;
             for (int i = 0; i < flights[positionAdd].Passengers.Length; i++)
@@ -245,6 +245,79 @@ namespace AirLine
                 "\nCityArrival: " + CityArrival + "\nCityDeparture: " + CityDeparture +
                 "\nTerminal: " + Terminal + "\nStatus: " + Status + "\n" + new string('*', 70);
             return mySring;
+        }
+
+        public bool SearchByFirstName(Flight[] flight, string firstName, bool search, int count)
+        {
+            for (int i = 0; i < Passengers.Length; i++)
+            {
+                if (Passengers[i] != null)
+                {
+                    if (Passengers[i].FirstName == firstName)
+                    {
+                        Console.WriteLine(flight[count].ToString());
+                        Console.WriteLine(Passengers[i].ToString());
+                        search = false;
+                    }
+                }
+            }
+            return search;
+        }
+
+        public bool SearchByLastName(Flight[] flight, string lastName, bool search, int count)
+        {
+            for (int i = 0; i < Passengers.Length; i++)
+            {
+                if (Passengers[i] != null)
+                {
+                    if (Passengers[i].LastName == lastName)
+                    {
+                        Console.WriteLine(flight[count].ToString());
+                        Console.WriteLine(Passengers[i].ToString());
+                        search = false;
+                    }
+                }
+            }
+            return search;
+        }
+
+        public bool SearchByPassport(Flight[] flight, int numberPassport, bool search, int count)
+        {
+            for (int i = 0; i < Passengers.Length; i++)
+            {
+                if (Passengers[i] != null)
+                {
+                    if (Passengers[i].Passport == numberPassport)
+                    {
+                        Console.WriteLine(flight[count].ToString());
+                        Console.WriteLine(Passengers[i].ToString());
+                        search = false;
+                    }
+                }
+            }
+            return search;
+        }
+
+        public bool SearchPrice(Flight[] flight, float minPrice, float maxPrice, bool search, int count)
+        {
+            for (int i = 0; i < FlightTicket.Length; i++)
+            {
+                if (FlightTicket != null)
+                {
+                    if (FlightTicket[i].Price >= minPrice
+                    && FlightTicket[i].Price <= maxPrice)
+                    {
+                        if (FlightTicket[i].FlightClass == FlightClass.Ecocnomy)
+                        {
+                            Console.WriteLine(flight[count].ToString());
+                            Console.WriteLine($"Price for {FlightTicket[i].FlightClass} class: {FlightTicket[i].Price}$");
+                            Console.WriteLine(new string('_', 30));
+                            search = false;
+                        }
+                    }
+                }
+            }
+            return search;
         }
     }
 }

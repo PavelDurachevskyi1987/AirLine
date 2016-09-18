@@ -205,26 +205,17 @@ namespace AirLine
             Console.Clear();
             Console.WriteLine("Enter firstname of passenger: ");
             string firstName = Console.ReadLine();
-            bool count = true;
+            bool search = true;
+            int count = -1;
             for (int i = 0; i < Flights.Length; i++)
             {
                 if (Flights[i] != null)
                 {
-                    for (int j = 0; j < Flights[i].Passengers.Length; j++)
-                    {
-                        if (Flights[i].Passengers[j] != null)
-                        {
-                            if (Flights[i].Passengers[j].FirstName == firstName)
-                            {
-                                Console.WriteLine(Flights[i].ToString());
-                                Console.WriteLine(Flights[i].Passengers[j].ToString());
-                                count = false;
-                            }
-                        }
-                    }
+                    count = i;
+                    search = Flights[i].SearchByFirstName(Flights, firstName, search, count);
                 }
             }
-            if (count)
+            if (search)
                 Helper.NothingFound();
             Console.ReadLine();
         }
@@ -232,28 +223,19 @@ namespace AirLine
         public void SearchByLastName()
         {
             Console.Clear();
-            Console.WriteLine("Enter lastdName of passenger: ");
+            Console.WriteLine("Enter lastName of passenger: ");
             string lastName = Console.ReadLine();
-            bool count = true;
+            bool search = true;
+            int count = -1;
             for (int i = 0; i < Flights.Length; i++)
             {
                 if (Flights[i] != null)
                 {
-                    for (int j = 0; j < Flights[i].Passengers.Length; j++)
-                    {
-                        if (Flights[i].Passengers[j] != null)
-                        {
-                            if (Flights[i].Passengers[j].LastName == lastName)
-                            {
-                                Console.WriteLine(Flights[i].ToString());
-                                Console.WriteLine(Flights[i].Passengers[j].ToString());
-                                count = false;
-                            }
-                        }
-                    }
+                    count = i;
+                    search = Flights[i].SearchByLastName(Flights, lastName, search, count);
                 }
             }
-            if (count)
+            if (search)
                 Helper.NothingFound();
             Console.ReadLine();
         }
@@ -263,26 +245,17 @@ namespace AirLine
             Console.Clear();
             Console.WriteLine("Enter the passport number of passenger: ");
             int numberPassport = int.Parse(Console.ReadLine());
-            bool count = true;
+            bool search = true;
+            int count = -1;
             for (int i = 0; i < Flights.Length; i++)
             {
                 if (Flights[i] != null)
                 {
-                    for (int j = 0; j < Flights[i].Passengers.Length; j++)
-                    {
-                        if (Flights[i].Passengers[j] != null)
-                        {
-                            if (Flights[i].Passengers[j].Passport == numberPassport)
-                            {
-                                Console.WriteLine(Flights[i].ToString());
-                                Console.WriteLine(Flights[i].Passengers[j].ToString());
-                                count = false;
-                            }
-                        }
-                    }
+                    count = i;
+                    search = Flights[i].SearchByPassport(Flights, numberPassport, search, count);
                 }
             }
-            if (count)
+            if (search)
                 Helper.NothingFound();
             Console.ReadLine();
         }
@@ -338,31 +311,17 @@ namespace AirLine
             float minPrice = float.Parse(Console.ReadLine());
             Console.WriteLine("Enter max price of fligthfor for economy class: ");
             float maxPrice = float.Parse(Console.ReadLine());
-            bool count = true;
+            bool search = true;
+            int count = -1;
             for (int i = 0; i < Flights.Length; i++)
             {
                 if (Flights[i] != null)
                 {
-                    for (int j = 0; j < Flights[i].FlightTicket.Length; j++)
-                    {
-                        if (Flights[i].FlightTicket != null)
-                        {
-                            if (Flights[i].FlightTicket[j].Price >= minPrice
-                            && Flights[i].FlightTicket[j].Price <= maxPrice)
-                            {
-                                if (Flights[i].FlightTicket[j].FlightClass == FlightClass.Ecocnomy)
-                                {
-                                    Console.WriteLine(Flights[i].ToString());
-                                    Console.WriteLine($"Price for {Flights[i].FlightTicket[j].FlightClass} class: {Flights[i].FlightTicket[j].Price}$");
-                                    Console.WriteLine(new string('_', 30));
-                                    count = false;
-                                }
-                            }
-                        }
-                    }
+                    count = i;
+                    search = Flights[i].SearchPrice(Flights, minPrice, maxPrice, search, count);
                 }
             }
-            if (count)
+            if (search)
                 Helper.NothingFound();
             Console.ReadLine();
         }
@@ -389,7 +348,7 @@ namespace AirLine
             Console.ReadLine();
         }
 
-        public AirPort FlightGeneration()
+        public static AirPort GenerationOfFlights()
         {
             Passenger[] passengerFlightOne = new Passenger[20];
             passengerFlightOne[0] = new Passenger("Ignat", "Ignatenko", "UA", 070707, DateTime.Parse("13.11.1985"), Sex.Male, new FlightTicket(FlightClass.Business, 500));
@@ -412,9 +371,9 @@ namespace AirLine
             return airport;
         }
 
-        public void Run()
+        public static void Run()
         {
-            AirPort airPort = FlightGeneration();
+            AirPort airPort = GenerationOfFlights();
             int menu;
             do
             {

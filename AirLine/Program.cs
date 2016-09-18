@@ -10,8 +10,7 @@ namespace AirLine
     {
         static void Main(string[] args)
         {
-            AirPort airPort = new AirPort();
-            airPort.Run();
+            AirPort.Run();            
         }
     }
 }

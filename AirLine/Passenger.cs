@@ -10,19 +10,20 @@ namespace AirLine
     {
         Male,
         Famale
-    } 
-        public class Passenger 
-        {
-            public string FirstName { get; private set; }
-            public string LastName { get; private set; }
-            public string Nationality { get; private set; }
-            public int Passport { get; private set; }
-            public DateTime Birthday { get; private set; }
-            public Sex Sex { get; private set; }
-            public FlightTicket FlightTicket { get; private set; }
+    }
+
+    public class Passenger
+    {
+        public string FirstName { get; private set; }
+        public string LastName { get; private set; }
+        public string Nationality { get; private set; }
+        public int Passport { get; private set; }
+        public DateTime Birthday { get; private set; }
+        public Sex Sex { get; private set; }
+        public FlightTicket FlightTicket { get; private set; }
 
         public Passenger() { }
-  
+
         public Passenger(string firstName, string lastName, string nationality,
                          int passport, DateTime birthday, Sex sex, FlightTicket flightTicket)
         {
@@ -35,7 +36,7 @@ namespace AirLine
             FlightTicket = flightTicket;
         }
 
-        public void Delete(Passenger[] passenger,  int countPassenger)
+        public void Delete(Passenger[] passenger, int countPassenger)
         {
             {
                 Console.Clear();
@@ -88,9 +89,9 @@ namespace AirLine
                 Console.WriteLine("You entered incorrect data !");
                 Console.ReadLine();
             }
-             passenger = new Passenger(passenger.FirstName, passenger.LastName, passenger.Nationality,
-                         passenger.Passport, passenger.Birthday, passenger.Sex, passenger.FlightTicket);
-             return passenger;
+            passenger = new Passenger(passenger.FirstName, passenger.LastName, passenger.Nationality,
+                        passenger.Passport, passenger.Birthday, passenger.Sex, passenger.FlightTicket);
+            return passenger;
         }
 
         public void Edit(Passenger[] passenger, int countPassenger)
@@ -141,7 +142,7 @@ namespace AirLine
             }
         }
 
-    public override string ToString()
+        public override string ToString()
         {
             string myString = @"FirstName: " + FirstName + "\nLastName: " + LastName + "\nNationality: " + Nationality +
                 "\nPassport: " + Passport + "\nBirthday: " + Birthday.Date.ToString("dd.MM.yyyy") + "\nSex: " + Sex +
